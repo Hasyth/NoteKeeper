@@ -1,4 +1,4 @@
-package com.example.nipunu.notekeeper;
+package com.example.notekeeper;
 
 import android.os.Parcel;
 import android.os.Parcelable;

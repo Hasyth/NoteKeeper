@@ -1,4 +1,4 @@
-package com.example.nipunu.notekeeper;
+package com.example.notekeeper;
 
 import android.database.Cursor;
 import android.os.Parcel;

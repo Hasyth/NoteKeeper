@@ -1,5 +1,6 @@
 package com.example.notekeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,11 +10,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class NoteActivity extends AppCompatActivity {
+
+
+    public static final String NOTE_INFO = "com.example.notekeeper.NOTE_INFO";
+    private NoteInfo note;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +33,18 @@ public class MainActivity extends AppCompatActivity {
         Spinner spinnerCourses = (Spinner) findViewById(R.id.spinner_cources);
 
         List<CourseInfo> courses = DataManager.getInstance().getCourses();
-        ArrayAdapter<CourseInfo> adapterCourses = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CourseInfo> adapterCourses = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item);
         adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerCourses.setAdapter(adapterCourses);
+
+        readDisplayStateValues();
+
+        EditText textNoteTitle = findViewById(R.id.note_title);
+        EditText textNoteText = findViewById(R.id.note_text);
+
+
+        displayNote(spinnerCourses,textNoteTitle, textNoteText);
+
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +54,22 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void displayNote(Spinner spinnerCourses, EditText textNoteTitle, EditText textNoteText) {
+
+        List<CourseInfo> courses = DataManager.getInstance().getCourses();
+        int courseIndex = courses.indexOf(note.getCourse());
+        spinnerCourses.setSelection(courseIndex);
+
+
+        textNoteTitle.setText(note.getTitle());
+        textNoteText.setText(note.getText());
+    }
+
+    private void readDisplayStateValues() {
+        Intent intent = getIntent();
+        NoteInfo note = intent.getParcelableExtra(NOTE_INFO);
     }
 
     @Override
